@@ -57,7 +57,7 @@ class SelectTorFPage extends StatelessWidget {
             // 냉철한 고구마 버튼
             _buildPotatoButton(
               context,
-              imagePath: 'images/4.png',
+              imagePath: 'images/4.png',//하드코딩, 수정 요함
               title: "냉철한 고구마",
               isWarm: false,
               description: "일기 내용을 분석한 뒤, 최적화된 솔루션을 제공합니다.\n해결책이 필요한 분들에게 추천합니다.",

@@ -262,7 +262,7 @@ class _CalendarPageState extends State<CalendarPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'images/1.png',
+                'images/1.png',//이미지 값 동적으로 집어넣을 필요성
                 width: 60,
                 height: 60,
               ),

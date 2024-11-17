@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'callServer.dart';
+
 
 class CollectionPage extends StatefulWidget {
   @override
@@ -16,6 +20,7 @@ class _CollectionPageState extends State<CollectionPage> {
     _fetchPotatoCollection();
   }
 
+
   // 서버에서 고구마 컬렉션 데이터를 가져오는 함수
   Future<void> _fetchPotatoCollection() async {
     // TODO: 서버에서 데이터를 가져와서 collectedPotatoes에 저장
@@ -30,6 +35,10 @@ class _CollectionPageState extends State<CollectionPage> {
       9: 'images/3.png',
       11: 'images/4.png',
     };
+    //collectedPotatoes = await ApiService().getAllSP();
+    //실제 이미지 데이터 호출
+    //고구마 이미지 table을 다 긁어오는 형식(1~12월)로 구현
+    //아직 작성안한 월의 고구마는 안 불러오는 식으로 구현할 수도 있음(선택사항)
 
     // 데이터가 로드된 후 화면 갱신
     setState(() {});
