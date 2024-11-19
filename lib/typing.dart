@@ -119,7 +119,7 @@ class TypingPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'images/1.png',
+                'images/1.png',//이미지 따로 할당 필요
                 width: 100,
                 height: 100,
               ),

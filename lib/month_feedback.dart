@@ -104,7 +104,7 @@ class MonthFeedbackPage extends StatelessWidget {
                   SizedBox(height: 12),
                   // 고구마 스타일 제목 표시
                   Text(
-                    "“나는 [ 안경잡이 고구마 ] 예요”",
+                    "“나는 [ 안경잡이 고구마 ] 예요”",// 고구마 case에 맞는 이름 호출
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 23,
@@ -118,7 +118,7 @@ class MonthFeedbackPage extends StatelessWidget {
             ),
             SizedBox(height: 30),
             // 고구마 스타일 설명 텍스트
-            Text(
+            Text(//고구마 자기소개 할당
               "힘든 상황에서도 포기하지 않고, 다양한 솔루션을 얻으며 문제를 해결해내는 능력을 가진 고구마예요. 고민이 많더라도 항상 더 나은 답을 찾기 위해 노력하며 성장하고, 주변에도 긍정적인 에너지를 주는 고구마라고 할 수 있죠.",
               style: TextStyle(
                 color: Colors.white,
