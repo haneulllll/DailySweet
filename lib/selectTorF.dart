@@ -1,6 +1,15 @@
 import 'package:diary_ui/feedback.dart';
 import 'package:flutter/material.dart';
 
+/*
+<<구현한 기능 목록>>
+* SelectTorFPage: 사용자가 원하는 피드백 스타일(따뜻한 고구마 또는 냉철한 고구마)을 선택할 수 있는 페이지
+* AppBar: 화면 상단에 제목과 뒤로가기 버튼을 표시
+* RichText: 사용자에게 원하는 고구마 스타일을 선택하라는 안내 메시지를 표시
+* _buildPotatoButton: 따뜻한 고구마와 냉철한 고구마 버튼을 통해 사용자가 원하는 스타일을 선택할 수 있도록 제공
+* Navigator: 사용자가 선택한 고구마 스타일에 따라 FeedbackPage로 이동
+*/
+
 class SelectTorFPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -57,7 +66,7 @@ class SelectTorFPage extends StatelessWidget {
             // 냉철한 고구마 버튼
             _buildPotatoButton(
               context,
-              imagePath: 'images/4.png',//하드코딩, 수정 요함
+              imagePath: 'images/4.png',
               title: "냉철한 고구마",
               isWarm: false,
               description: "일기 내용을 분석한 뒤, 최적화된 솔루션을 제공합니다.\n해결책이 필요한 분들에게 추천합니다.",

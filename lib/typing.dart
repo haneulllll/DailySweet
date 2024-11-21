@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'selectTorF.dart';
 
+/*
+<<구현한 기능 목록>>
+* TypingPage: 사용자가 일기를 작성할 수 있는 페이지
+* TextField: 사용자가 일기를 입력할 수 있는 입력 필드를 제공
+* AppBar: 화면 상단에 뒤로가기 버튼과 페이지 제목을 표시
+* 완료 버튼: 작성한 일기를 저장하고, 분석 여부를 묻는 팝업 창을 띄움
+* _showAnalysisDialog: 일기 분석 여부를 묻는 팝업 창을 표시하는 함수
+* Navigator: 사용자가 선택한 옵션에 따라 일기 분석 페이지(SelectTorFPage)로 이동하거나, 일기만 기록하고 돌아옴
+*/
+
+
 class TypingPage extends StatelessWidget {
   final DateTime date;
   final Map<DateTime, String> diaryEntries; // 일기 내용을 저장하는 Map 추가
@@ -119,7 +130,7 @@ class TypingPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'images/1.png',//이미지 따로 할당 필요
+                'images/1.png',
                 width: 100,
                 height: 100,
               ),
@@ -142,6 +153,7 @@ class TypingPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
                         onPressed: () {
+                          diaryEntries[date] = textController.text; // 일기 내용 저장
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => SelectTorFPage()),

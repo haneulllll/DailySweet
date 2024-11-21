@@ -4,6 +4,13 @@ import 'homepage.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+/*
+<<구현한 기능 목록>>
+* SplashScreen: 앱 실행 시 3초 동안 로딩 화면(splash.dart)을 보여준 후 홈 페이지(homepage.dart)로 이동
+* CalendarPage: 로딩 화면 이후에 표시되는 메인 화면으로, 캘린더 형태로 일기를 관리
+* initializeDateFormatting: 한국어 날짜 형식을 사용하기 위해 초기화합니다.
+*/
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ko_KR', null);

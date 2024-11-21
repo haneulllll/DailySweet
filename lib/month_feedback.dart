@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'collection.dart';
 
+/*
+<<구현한 기능 목록>>
+* MonthFeedbackPage: 현재 월의 일기내용을 분석한 결과, 생성된 고구마를 표시하는 페이지
+* AppBar: 화면 상단에 제목, 뒤로가기 버튼, 고구마 컬렉션 버튼을 통해 고구마 컬렉션 페이지로 이동
+*/
+
 class MonthFeedbackPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -104,7 +110,7 @@ class MonthFeedbackPage extends StatelessWidget {
                   SizedBox(height: 12),
                   // 고구마 스타일 제목 표시
                   Text(
-                    "“나는 [ 안경잡이 고구마 ] 예요”",// 고구마 case에 맞는 이름 호출
+                    "“나는 [ 안경잡이 고구마 ] 예요”",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 23,
@@ -118,7 +124,7 @@ class MonthFeedbackPage extends StatelessWidget {
             ),
             SizedBox(height: 30),
             // 고구마 스타일 설명 텍스트
-            Text(//고구마 자기소개 할당
+            Text(
               "힘든 상황에서도 포기하지 않고, 다양한 솔루션을 얻으며 문제를 해결해내는 능력을 가진 고구마예요. 고민이 많더라도 항상 더 나은 답을 찾기 위해 노력하며 성장하고, 주변에도 긍정적인 에너지를 주는 고구마라고 할 수 있죠.",
               style: TextStyle(
                 color: Colors.white,

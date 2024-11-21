@@ -3,6 +3,18 @@ import 'package:intl/intl.dart';
 import 'Typing.dart';
 import 'month_feedback.dart';
 
+/*
+<<구현한 기능 목록>>
+* CalendarPage: 캘린더 형태로 일기를 관리할 수 있는 페이지를 생성
+* _previousMonth: 이전 달로 이동하는 함수
+* _nextMonth: 다음 달로 이동하는 함수
+* _getDiaryCountForCurrentMonth: 현재 월에 작성된 일기 수를 반환하는 함수
+* _buildWeekdayHeader: 요일 헤더를 생성하는 위젯
+* _buildCalendar: 달력의 각 날짜를 생성하는 위젯
+* _buildBottomNavigation: 하단 네비게이션 바를 생성하는 위젯
+* _showPotatoPopup: 일기 작성 횟수가 5회 미만일 경우 팝업창을 표시하는 함수
+*/
+
 class CalendarPage extends StatefulWidget {
   @override
   _CalendarPageState createState() => _CalendarPageState();
@@ -262,7 +274,7 @@ class _CalendarPageState extends State<CalendarPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'images/1.png',//이미지 값 동적으로 집어넣을 필요성
+                'images/1.png',
                 width: 60,
                 height: 60,
               ),
