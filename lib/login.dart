@@ -5,6 +5,7 @@ import 'homepage.dart';
 <<구현한 기능 목록>>
 * LoginScreen: 사용자가 아이디와 비밀번호를 입력하여 로그인할 수 있는 화면
 * 로그인 완료 후 메인 화면(CalendarPage)으로 이동
+* CalendarPage: 로딩 화면 이후에 표시되는 메인 화면으로, 캘린더 형태로 일기를 관리
 */
 
 class LoginScreen extends StatelessWidget {

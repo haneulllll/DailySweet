@@ -6,8 +6,8 @@ import 'package:intl/date_symbol_data_local.dart';
 
 /*
 <<구현한 기능 목록>>
-* SplashScreen: 앱 실행 시 3초 동안 로딩 화면(splash.dart)을 보여준 후 홈 페이지(homepage.dart)로 이동
-* CalendarPage: 로딩 화면 이후에 표시되는 메인 화면으로, 캘린더 형태로 일기를 관리
+* SplashScreen: 앱 실행 시 3초 동안 로딩 화면(splash.dart)을 보여준 후 로그인 페이지(login.dart)로 이동
+* LoginScreen: 로딩 화면 이후에 표시되는 로그인 화면
 * initializeDateFormatting: 한국어 날짜 형식을 사용하기 위해 초기화합니다.
 */
 
@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // 3초 후에 HomePage로 이동
+    // 3초 후에 login페이지로 이동
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
