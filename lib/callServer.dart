@@ -17,13 +17,22 @@ import 'package:path/path.dart' as path;
 * getRiss: RISS 상위 5개 논문의 제목과 url을 list로 반환합니다.
 * getSentence: sentence table에 저장한 문장들 호출. 사전 가공한 문장을 불러올 때 쓰입니다
 * analyzeEmotion: 입력한 텍스트의 분석값을 반환합니다.
-*                 이진분류값과 softmax한 확률정보를 반환하는 스타일로 구현해 놨습니다.
-*                 원하는 형태로 추가 가중치만 조절하면 구현은 끝납니다.
 * getMonthData: 한 달 단위의 분석값을 table에서 긁어옵니다. 한달통계를 반환하게 추후 구현 가능합니다.
 * getSweetPotato: 지정한 월의 고구마 이미지를 저장합니다.
 * getAllSP: 월별 고구마 table의 모든 고구마 이미지를 저장합니다.
 * saveImg: blob형태로 encoding된 img를 decode해주기 위한 함수입니다.
+*
+* <<추가된 기능>>
+* join: 회원가입 기능입니다.
+* login: 로그인 기능입니다.
+*     실패시 throw exception
 * */
+
+void main() async{
+  List<dynamic> data = await ApiService().getRiss("인공지능");
+  print(data);
+}
+
 class ApiService {
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
@@ -129,6 +138,45 @@ class ApiService {
       throw Exception('/spAll 접속 실패: ${response.reasonPhrase}');
     }
   }
+
+// 회원가입 엔드포인트
+  Future<String> join(String uid, String password) async {
+    final url = Uri.parse('$_baseUrl/join');
+    final response = await http.post(
+      url,
+      headers: _headers,
+      body: jsonEncode({'uid': uid, 'password': password}),
+    );
+
+    if (response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      return data['message']; // 회원가입 성공 메시지
+    } else if (response.statusCode == 409) {
+      throw Exception('회원가입 실패: 이미 존재하는 uid.');
+    } else {
+      throw Exception('회원가입 실패: ${response.reasonPhrase}');
+    }
+  }
+
+// 로그인 엔드포인트
+  Future<String> login(String uid, String password) async {
+    final url = Uri.parse('$_baseUrl/login');
+    final response = await http.post(
+      url,
+      headers: _headers,
+      body: jsonEncode({'uid': uid, 'password': password}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['message']; // 로그인 성공 메시지
+    } else if (response.statusCode == 401) {
+      throw Exception('로그인 실패: 입력값 오류.');
+    } else {
+      throw Exception('로그인 실패: ${response.reasonPhrase}');
+    }
+  }
+
 
   // /이미지 저장용
   Future<void> saveImg(String blob, String name) async {
