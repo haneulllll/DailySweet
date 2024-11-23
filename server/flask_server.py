@@ -16,10 +16,6 @@ db는 local에서 mysql로 구축
 작동 test 완료:
 dbset 포함 db 접속 기능들
 getRiss
-
-미완료:
-모델 평가(모델 호출 포함은 테스트 완료, 추가 가중치 구현 부분 미적용)
-monthData (얘는 평가함수 바탕으로 통계를 내줘야 해서, 일단은 한 달 단위의 데이터 반환으로 구현)
 '''
 
 
@@ -35,7 +31,7 @@ model.load_state_dict(state)#로드한 가중치 적용
 model.to(device)#gpu에 올림
 
 rootid = 'root'
-password = ''#db 비밀번호
+password = 'tjdnd1029@!~~'#db 비밀번호
 def dbSet(UID, PASSWORD):#db호출
     return mysql.connector.connect(
         host="localhost",
@@ -94,7 +90,7 @@ def validEmotion(text):#분석값 반환-절반쯤 구현
     if case4: return 4,pred,probabilities
     if case5: return 5,pred,probabilities#케이스가 적으니 하드코딩
     #팝업해야할 고구마의 종류와 모델의 분석값, softmax를 통한 확률정보 return
-    return -1, None,-1 #error
+    return -1, pred,probabilities #error
 
 @app.route('/riss', methods=['GET'])
 def getRiss():
@@ -286,6 +282,86 @@ def getAllSP():
         } for row in results
     ]
     return jsonify({'data': data_list})
+
+
+'''
+table users
+int auto increment : id
+varchar10 : uid
+varchar255 : password
+timestamp : created_at
+'''
+
+@app.route('/join', methods=['POST'])
+def join():#회원가입
+    data = request.get_json()
+    uid = data.get('uid')
+    password = data.get('password')
+
+    if not all([uid, password]):
+        return jsonify({'error': 'uid와 password를 모두 제공해주세요.'}), 400
+
+    try:
+        # 데이터베이스 연결
+        conn = dbSet(rootid, password)
+        cursor = conn.cursor()
+
+        # uid 중복 확인
+        query = "SELECT id FROM users WHERE uid = %s"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        if result:
+            return jsonify({'error': '이미 존재하는 uid.'}), 409
+
+        # 사용자 데이터 삽입
+        query = "INSERT INTO users (uid, password) VALUES (%s, %s)"
+        cursor.execute(query, (uid, password))
+        conn.commit()
+
+        return jsonify({'message': '회원가입 성공'}), 201
+
+    except mysql.connector.Error as err:
+        print(f"DB Error: {err}")
+        return jsonify({'error': 'db 오류'}), 500
+
+    finally:
+        # 연결 종료
+        cursor.close()
+        conn.close()
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    uid = data.get('uid')
+    password = data.get('password')
+
+    if not all([uid, password]):
+        return jsonify({'error': '입력값이 올바르지 못함.'}), 400
+
+    try:
+        # 데이터베이스 연결
+        conn = dbSet(rootid, password)
+        cursor = conn.cursor()
+
+        # 사용자 확인
+        query = "SELECT id FROM users WHERE uid = %s AND password = %s"
+        cursor.execute(query, (uid, password))
+        result = cursor.fetchone()
+
+        if result:
+            return jsonify({'message': '로그인 성공'}), 200
+        else:
+            return jsonify({'error': 'login 실패.'}), 401
+
+    except mysql.connector.Error as err:
+        print(f"DB Error: {err}")
+        return jsonify({'error': 'db 오류'}), 500
+
+    finally:
+        # 연결 종료
+        cursor.close()
+        conn.close()
+
 
 if __name__ == '__main__':
     # Flask 서버 실행
