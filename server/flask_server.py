@@ -31,7 +31,7 @@ model.load_state_dict(state)#로드한 가중치 적용
 model.to(device)#gpu에 올림
 
 rootid = 'root'
-password = 'tjdnd1029@!~~'#db 비밀번호
+password = ''#db 비밀번호
 def dbSet(UID, PASSWORD):#db호출
     return mysql.connector.connect(
         host="localhost",
@@ -293,29 +293,33 @@ timestamp : created_at
 '''
 
 @app.route('/join', methods=['POST'])
-def join():#회원가입
+def join():
     data = request.get_json()
     uid = data.get('uid')
-    password = data.get('password')
+    pw = data.get('password')
 
-    if not all([uid, password]):
-        return jsonify({'error': 'uid와 password를 모두 제공해주세요.'}), 400
+    if not all([uid, pw]):
+        return jsonify({'error': 'uid와 password 모두 입력 바람.'}), 400
 
+    conn = None
+    cursor = None
     try:
         # 데이터베이스 연결
         conn = dbSet(rootid, password)
+        print("DB 연결 성공")
         cursor = conn.cursor()
 
         # uid 중복 확인
         query = "SELECT id FROM users WHERE uid = %s"
         cursor.execute(query, (uid,))
         result = cursor.fetchone()
+
         if result:
             return jsonify({'error': '이미 존재하는 uid.'}), 409
 
         # 사용자 데이터 삽입
         query = "INSERT INTO users (uid, password) VALUES (%s, %s)"
-        cursor.execute(query, (uid, password))
+        cursor.execute(query, (uid, pw))
         conn.commit()
 
         return jsonify({'message': '회원가입 성공'}), 201
@@ -325,17 +329,18 @@ def join():#회원가입
         return jsonify({'error': 'db 오류'}), 500
 
     finally:
-        # 연결 종료
-        cursor.close()
-        conn.close()
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     uid = data.get('uid')
-    password = data.get('password')
+    pw = data.get('password')
 
-    if not all([uid, password]):
+    if not all([uid, pw]):
         return jsonify({'error': '입력값이 올바르지 못함.'}), 400
 
     try:
@@ -345,7 +350,7 @@ def login():
 
         # 사용자 확인
         query = "SELECT id FROM users WHERE uid = %s AND password = %s"
-        cursor.execute(query, (uid, password))
+        cursor.execute(query, (uid, pw))
         result = cursor.fetchone()
 
         if result:
