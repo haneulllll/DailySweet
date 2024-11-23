@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'splash.dart';
-import 'homepage.dart';
+import 'login.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => CalendarPage()),
+        MaterialPageRoute(builder: (context) => LoginScreen())
       );
     });
   }
