@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'collection.dart';
+import 'callServer.dart';
 
 /*
 <<구현한 기능 목록>>
@@ -8,7 +9,29 @@ import 'collection.dart';
 * AppBar: 화면 상단에 제목, 뒤로가기 버튼, 고구마 컬렉션 버튼을 통해 고구마 컬렉션 페이지로 이동
 */
 
-class MonthFeedbackPage extends StatelessWidget {
+class MonthFeedbackPage extends StatefulWidget {
+  @override
+  _MonthFeedbackPageState createState() => _MonthFeedbackPageState();
+}
+
+class _MonthFeedbackPageState extends State<MonthFeedbackPage> {
+  String txt = '';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    stSet(1);
+  }
+
+  void stSet(int input) async {
+    String result = await ApiService().getSentence(input);
+    setState(() {
+      txt = result;
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String month = DateFormat.MMM('ko_KR').format(DateTime.now()); // 현재 월 정보 가져오기
@@ -30,17 +53,16 @@ class MonthFeedbackPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 40, // Column 내에서 고정된 크기를 지정
+                width: 40,
                 child: IconButton(
-                  padding: EdgeInsets.zero, // 아이콘 버튼의 기본 패딩 제거
+                  padding: EdgeInsets.zero,
                   icon: Image.asset(
                     'images/potato.png',
                     width: 25,
                     height: 25,
-                  ), // 고구마 컬렉션 아이콘
+                  ),
                   tooltip: "고구마 컬렉션",
                   onPressed: () {
-                    // 고구마 컬렉션 클릭 시 CollectionPage로 전환
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CollectionPage()),
@@ -48,7 +70,7 @@ class MonthFeedbackPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: 4), // 아이콘과 텍스트 사이 간격 조정
+              SizedBox(height: 4),
               Text(
                 '고구마 컬렉션',
                 style: TextStyle(
@@ -62,7 +84,11 @@ class MonthFeedbackPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
+      body: isLoading
+          ? Center(
+        child: CircularProgressIndicator(), // 로딩 중이면 인디케이터 표시
+      )
+          : SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,7 +151,7 @@ class MonthFeedbackPage extends StatelessWidget {
             SizedBox(height: 30),
             // 고구마 스타일 설명 텍스트
             Text(
-              "힘든 상황에서도 포기하지 않고, 다양한 솔루션을 얻으며 문제를 해결해내는 능력을 가진 고구마예요. 고민이 많더라도 항상 더 나은 답을 찾기 위해 노력하며 성장하고, 주변에도 긍정적인 에너지를 주는 고구마라고 할 수 있죠.",
+              txt,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 25,

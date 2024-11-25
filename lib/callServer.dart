@@ -34,7 +34,7 @@ class ApiService {
   ApiService._internal();
 
   // 서버 기본 URL
-  static const String _baseUrl = 'http://localhost:5000';
+  static const String _baseUrl = 'http://10.0.2.2:5000';
 
   final Map<String, String> _headers = {
     'Content-Type': 'application/json', // 값 형식 지정
