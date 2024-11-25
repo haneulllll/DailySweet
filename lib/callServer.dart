@@ -28,11 +28,6 @@ import 'package:path/path.dart' as path;
 *     실패시 throw exception
 * */
 
-void main() async{
-  List<dynamic> data = await ApiService().getRiss("인공지능");
-  print(data);
-}
-
 class ApiService {
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
