@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'selectTorF.dart';
+import 'EntryHandler.dart';
 
 /*
 <<구현한 기능 목록>>
@@ -13,9 +15,14 @@ import 'selectTorF.dart';
 
 
 class TypingPage extends StatelessWidget {
+  late EntryHandler entryHandler;
   final DateTime date;
-  final Map<DateTime, String> diaryEntries; // 일기 내용을 저장하는 Map 추가
+  Map<DateTime, String> diaryEntries = {};
   final TextEditingController textController;
+  Future<void> ent() async{
+    entryHandler = await EntryHandler.create();
+    diaryEntries = entryHandler.loadEntrySync(); // 데이터를 로드하여 diaryEntries에 저장
+  }
 
   TypingPage({required this.date, required this.diaryEntries})
       : textController = TextEditingController(text: diaryEntries[date] ?? ''); // 생성자에서 초기화
@@ -90,8 +97,10 @@ class TypingPage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async{
+                  await ent();
                   diaryEntries[date] = textController.text; // 일기 내용을 미리 저장
+                  entryHandler.addEntrySync(date, textController.text);
                   _showAnalysisDialog(context); // 팝업창 띄우기
                 },
                 style: ElevatedButton.styleFrom(
@@ -152,8 +161,10 @@ class TypingPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async{
+                          await ent();
                           diaryEntries[date] = textController.text; // 일기 내용 저장
+                          entryHandler.addEntrySync(date, textController.text);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => SelectTorFPage()),

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'splash.dart';
 import 'login.dart';
@@ -12,6 +13,7 @@ import 'package:intl/date_symbol_data_local.dart';
 */
 
 void main() async{
+  print('현재 디렉토리: ${Directory.current.path}');
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ko_KR', null);
   runApp(MyApp());

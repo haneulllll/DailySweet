@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'Typing.dart';
 import 'month_feedback.dart';
+import 'EntryHandler.dart';
 
 /*
 <<구현한 기능 목록>>
@@ -23,6 +26,20 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   DateTime _currentDate = DateTime.now();
   Map<DateTime, String> diaryEntries = {}; // 일기 내용을 저장하는 Map
+  late EntryHandler entryHandler;
+
+  @override
+  void initState() {
+    super.initState();
+    ent(); // EntryHandler 초기화
+  }
+
+  void ent()async{
+    entryHandler = await EntryHandler.create();
+    setState(() {
+      diaryEntries = entryHandler.loadEntrySync(); // 데이터를 로드하여 diaryEntries에 저장
+    });
+  }
 
   // 이전 달로 이동하는 함수
   void _previousMonth() {

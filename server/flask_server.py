@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import joblib
 import os
 import mysql.connector
@@ -22,6 +23,7 @@ getRiss
 
 # Flask 앱 초기화
 app = Flask(__name__)
+CORS(app)
 # 모델 로드
 model = AutoModelForSequenceClassification.from_pretrained("klue/bert-base")
 model_path = os.path.join(os.path.dirname(__file__), "C:/Users/tjdnd/OneDrive/바탕 화면/새 폴더/model.safetensors")
@@ -352,8 +354,9 @@ def login():
         query = "SELECT id FROM users WHERE uid = %s AND password = %s"
         cursor.execute(query, (uid, pw))
         result = cursor.fetchone()
-
+        #print(result)
         if result:
+            print("login 성공")
             return jsonify({'message': '로그인 성공'}), 200
         else:
             return jsonify({'error': 'login 실패.'}), 401
@@ -366,7 +369,6 @@ def login():
         # 연결 종료
         cursor.close()
         conn.close()
-
 
 if __name__ == '__main__':
     # Flask 서버 실행
